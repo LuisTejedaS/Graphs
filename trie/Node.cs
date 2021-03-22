@@ -12,7 +12,8 @@ namespace TrieFunctions
         Node[] child = new Node[26];
         public Node(char c, Node pi)
         {
-            parent = pi; content = c;
+            parent = pi;
+            content = c;
         }
 
         public Node getChild(char c)

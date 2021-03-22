@@ -24,7 +24,10 @@ namespace TrieFunctions
                     current.addChild(new Node(c, current));
                     current = current.getChild(c);
                 }
-                if (i == word.Length - 1) current.ends = true;
+                if (i == word.Length - 1)
+                {
+                    current.ends = true;
+                }
             }
         }
 
