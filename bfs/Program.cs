@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
- 
+
 namespace BreadthFirst
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
-             
+
             AccountTreeBuillder builder = new AccountTreeBuillder();
-            IGraphNode root = (IGraphNode) builder.BuildAccountGraph();
-            BFSGraphAlgorithm algo = new  BFSGraphAlgorithm();
-            
+            IGraphNode root = (IGraphNode)builder.BuildAccountGraph();
+            BFSGraphAlgorithm algo = new BFSGraphAlgorithm();
+
 
             Console.WriteLine("Traverse Graph\n------");
             algo.Traverse(root);
@@ -25,6 +22,12 @@ namespace BreadthFirst
             e = algo.Search(root, "Proveedores Nacionales");
             Console.WriteLine(e == null ? "Account not found" : e.name);
             e = algo.Search(root, "Activo");
+            Console.WriteLine(e == null ? "Account not found" : e.name);
+
+            DFSGraphAlgorithm defs = new DFSGraphAlgorithm();
+
+            defs.Traverse(root);
+            e = defs.Search(root, "Activo");
             Console.WriteLine(e == null ? "Account not found" : e.name);
 
         }

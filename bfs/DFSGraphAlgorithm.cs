@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BreadthFirst
 {
-    public class BFSGraphAlgorithm
+    public class DFSGraphAlgorithm
     {
         public IGraphNode Search(IGraphNode root, string nameToSearchFor)
         {
-            Queue<IGraphNode> queue = new Queue<IGraphNode>();
+            Stack<IGraphNode> stack = new Stack<IGraphNode>();
             HashSet<IGraphNode> visited = new HashSet<IGraphNode>();
-            queue.Enqueue(root);
+            stack.Push(root);
             visited.Add(root);
 
-            while (queue.Count > 0)
+            while (stack.Count > 0)
             {
-                IGraphNode e = queue.Dequeue();
+                IGraphNode e = stack.Pop();
                 if (e.name == nameToSearchFor)
                     return e;
                 foreach (IGraphNode friend in e.Children)
                 {
                     if (!visited.Contains(friend))
                     {
-                        queue.Enqueue(friend);
+                        stack.Push(friend);
                         visited.Add(friend);
                     }
                 }
@@ -33,27 +32,23 @@ namespace BreadthFirst
 
         public void Traverse(IGraphNode root)
         {
-            Queue<IGraphNode> traverseOrder = new Queue<IGraphNode>();
-
-            Queue<IGraphNode> queue = new Queue<IGraphNode>();
             HashSet<IGraphNode> visited = new HashSet<IGraphNode>();
-            queue.Enqueue(root);
-            int level = 1;
-            root.level = level;
-            visited.Add(root);
-
-            while (queue.Count > 0)
+            Stack<IGraphNode> stack = new Stack<IGraphNode>();
+            Queue<IGraphNode> traverseOrder = new Queue<IGraphNode>();
+            stack.Push(root);
+            while (stack.Count != 0)
             {
-                IGraphNode e = queue.Dequeue();
-                traverseOrder.Enqueue(e);
-                foreach (IGraphNode emp in e.Children)
+                var current = stack.Pop();
+                traverseOrder.Enqueue(current);
+                if (!visited.Add(current))
                 {
-                    if (!visited.Contains(emp))
-                    {
-                        queue.Enqueue(emp);
-                        visited.Add(emp);
-                        emp.level = e.level + 1;
-                    }
+                    continue;
+                }
+                var reversedChildren = Enumerable.Reverse(current.Children).ToList();
+                // If you don't care about the left-to-right order, remove the Reverse
+                foreach (var neighbour in reversedChildren)
+                {
+                    stack.Push(neighbour);
                 }
             }
             while (traverseOrder.Count > 0)
@@ -61,6 +56,7 @@ namespace BreadthFirst
                 IGraphNode e = traverseOrder.Dequeue();
                 Console.WriteLine(e);
             }
+
         }
     }
 }
